@@ -28,7 +28,7 @@ font-family: Arial, sans-serif;
 Awards: 1 World Cup, 1 Ballon d'Or <br>
 Nickname: Shoosha, The GOAT, Choucha <br>
 Date of Birth: September 26, 1984 <br>
-Age: <span id="age"></span> years old <br>
+Age: <span id="live-age"></span> years old <br>
 Place of Birth: Oum El Bouaghir, Algeria <br>
 Nationality: Algerian <br>
 Height: 155.75cm/5'11 <br>
@@ -43,29 +43,78 @@ Relationship Status: Single<br>
 <h4>If  find that any of our information is incorrect or if you have any suggestions, email us at <a href="mailto:theshooshathatcomments@gmail.com">theshooshathatcomments@gmail.com</a>
 </h4>
 <script>
-const dateOfBirth = "1984-09-26"; 
+    const dateOfBirth = new Date("1984-09-26T00:00:00");
 
-function calculateAge(dateOfBirth) {
-const today = new Date();
-const birthDate = new Date(dateOfBirth);
+    function getLiveAge(birthDate) {
+      const now = new Date();
 
-let age = today.getFullYear() - birthDate.getFullYear();
+      let years = now.getFullYear() - birthDate.getFullYear();
+      let months = now.getMonth() - birthDate.getMonth();
+      let days = now.getDate() - birthDate.getDate();
+      let hours = now.getHours() - birthDate.getHours();
+      let minutes = now.getMinutes() - birthDate.getMinutes();
+      let seconds = now.getSeconds() - birthDate.getSeconds();
+      let milliseconds = now.getMilliseconds() - birthDate.getMilliseconds();
 
-const birthdayHasPassedThisYear =
-today.getMonth() > birthDate.getMonth() ||
-(
-today.getMonth() === birthDate.getMonth() &&
-today.getDate() >= birthDate.getDate()
-);
+      if (milliseconds < 0) {
+        milliseconds += 1000;
+        seconds--;
+      }
 
-if (!birthdayHasPassedThisYear) {
-age--;
-}
+      if (seconds < 0) {
+        seconds += 60;
+        minutes--;
+      }
 
-return age;
-}
+      if (minutes < 0) {
+        minutes += 60;
+        hours--;
+      }
 
-document.getElementById("age").textContent = calculateAge(dateOfBirth);
-</script>
+      if (hours < 0) {
+        hours += 24;
+        days--;
+      }
+
+      if (days < 0) {
+        const previousMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += previousMonth.getDate();
+        months--;
+      }
+
+      if (months < 0) {
+        months += 12;
+        years--;
+      }
+
+      return {
+        years,
+        months,
+        days,
+        hours,
+        minutes,
+        seconds,
+        milliseconds
+      };
+    }
+
+    function updateAge() {
+      const age = getLiveAge(dateOfBirth);
+
+      document.getElementById("live-age").textContent =
+        age.years + " years, " +
+        age.months + " months, " +
+        age.days + " days, " +
+        age.hours + " hours, " +
+        age.minutes + " minutes, " +
+        age.seconds + " seconds, " +
+        age.milliseconds + " milliseconds";
+    }
+
+    updateAge();
+
+    setInterval(updateAge, 10);
+  </script>
+
 </body>
 </html>
