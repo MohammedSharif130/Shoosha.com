@@ -27,8 +27,8 @@ font-family: Arial, sans-serif;
 <h4>Real name: Zaki Khellaf <br>
 Awards: 1 World Cup, 1 Ballon d'Or <br>
 Nickname: Shoosha, The GOAT, Choucha <br>
-Date of Birth: October 1, 1998 <br>
-Age: 27 years old <br>
+Date of Birth: September 26, 1984 <br>
+Age: <span id="age"></span> years old <br>
 Place of Birth: Oum El Bouaghir, Algeria <br>
 Nationality: Algerian <br>
 Height: 155.75cm/5'11 <br>
@@ -42,3 +42,30 @@ Relationship Status: Single<br>
 
 <h4>If  find that any of our information is incorrect or if you have any suggestions, email us at <a href="mailto:theshooshathatcomments@gmail.com">theshooshathatcomments@gmail.com</a>
 </h4>
+<script>
+const dateOfBirth = "1984-09-26"; 
+
+function calculateAge(dateOfBirth) {
+const today = new Date();
+const birthDate = new Date(dateOfBirth);
+
+let age = today.getFullYear() - birthDate.getFullYear();
+
+const birthdayHasPassedThisYear =
+today.getMonth() > birthDate.getMonth() ||
+(
+today.getMonth() === birthDate.getMonth() &&
+today.getDate() >= birthDate.getDate()
+);
+
+if (!birthdayHasPassedThisYear) {
+age--;
+}
+
+return age;
+}
+
+document.getElementById("age").textContent = calculateAge(dateOfBirth);
+</script>
+</body>
+</html>
